@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/LaserDefender.unity
+    path: /Users/britneyagius/Library/Mobile Documents/com~apple~CloudDocs/.Trash/LaserDefender/Assets/Scenes/LaserDefender.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
