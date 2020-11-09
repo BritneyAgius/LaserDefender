@@ -10,32 +10,62 @@ public class Player : MonoBehaviour
 {
     // Makes the variable editable from Unity editor
     [SerializeField] float movementSpeed = 10f;
+    [SerializeField] GameObject laserPrefab;
+    [SerializeField] float laserSpeed = 15f;
 
     float xMin, xMax, yMin, yMax;
 
+    float padding = 0.5f;
+
     // Start is called before the first frame update
     void Start()
-    {  
-        
+    {
+        SetUpMoveBoundaries();
+        //StartCoroutine(PrintAndWait());
     }
 
-    // Update is called once per frame
+    //update is called once per frame
     void Update()
     {
         Move();
+        Fire();
     }
 
-    // Sets up the boundaries according to the camera
+    /*coroutine example
+    private IEnumerator PrintAndWait()
+    {
+        print("Message 1");
+        //wait 10 seconds
+        yield return new WaitForSeconds(10);
+        print("Message 2 after 10 seconds");
+    } */
+
+    //sets up the boundaries according to the camera
     private void SetUpMoveBoundaries()
     {
+        //get camera from unity
         Camera gameCamera = Camera.main;
+
         //xMin = 0 according to the camera view
-        xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
-        xMax = gameCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
+        xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + padding;
+        xMax = gameCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - padding;
 
-        yMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y;
-        yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 0.5f, 0)).y;
+        yMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y + padding;
+        yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y - padding;
 
+    }
+
+    private void Fire()
+    {
+        //if fire button is pressed, create and fire a laser
+        if(Input.GetButtonDown("Fire1"))
+        {
+            //create an instance of laserPrefab at the position of the Player ship
+            GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
+
+            //add a velocity to the laser in the y-axis
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+        }
     }
 
     // Moves the Player ship

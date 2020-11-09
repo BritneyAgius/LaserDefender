@@ -1,5 +1,5 @@
 sceneSetups:
-- path: /Users/britneyagius/Library/Mobile Documents/com~apple~CloudDocs/.Trash/LaserDefender/Assets/Scenes/LaserDefender.unity
+- path: Assets/LaserDefender Update.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
