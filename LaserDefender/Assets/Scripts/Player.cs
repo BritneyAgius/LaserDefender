@@ -12,6 +12,10 @@ public class Player : MonoBehaviour
     [SerializeField] float movementSpeed = 10f;
     [SerializeField] GameObject laserPrefab;
     [SerializeField] float laserSpeed = 15f;
+    [SerializeField] float laserFiringTime = 0.2f;
+
+    Coroutine firingCoroutine;
+
 
     float xMin, xMax, yMin, yMax;
 
@@ -29,6 +33,21 @@ public class Player : MonoBehaviour
     {
         Move();
         Fire();
+    }
+
+    private IEnumerator FireContinously()
+    {
+        while(true) //while coroutine is running
+        {
+            //create an instance of laserPrefab at the position of the Player ship
+            GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
+
+            //add a velocity to the laser in the y-axis
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+
+            //wait x seconds before repeating
+            yield return new WaitForSeconds(laserFiringTime);
+        }
     }
 
     /*coroutine example
@@ -57,14 +76,15 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
-        //if fire button is pressed, create and fire a laser
+        //if fire button is pressed, Start coroutine to fire
         if(Input.GetButtonDown("Fire1"))
         {
-            //create an instance of laserPrefab at the position of the Player ship
-            GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
+            firingCoroutine = StartCoroutine(FireContinously()); 
+        }
 
-            //add a velocity to the laser in the y-axis
-            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+        if(Input.GetButtonUp("Fire1"))
+        {
+            StopCoroutine(firingCoroutine);
         }
     }
 
