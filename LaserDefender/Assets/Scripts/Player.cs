@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
 
     float padding = 0.5f;
 
+    bool coroutineStarted = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,15 +78,20 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
-        //if fire button is pressed, Start coroutine to fire
-        if(Input.GetButtonDown("Fire1"))
+        if (!coroutineStarted) //if coroutineStarted == false
         {
-            firingCoroutine = StartCoroutine(FireContinously()); 
+            //if fire button is pressed, Start coroutine to fire
+            if (Input.GetButtonDown("Fire1"))
+            {
+                firingCoroutine = StartCoroutine(FireContinously());
+                coroutineStarted = true;
+            }
         }
 
         if(Input.GetButtonUp("Fire1"))
         {
             StopCoroutine(firingCoroutine);
+            coroutineStarted = false;
         }
     }
 
