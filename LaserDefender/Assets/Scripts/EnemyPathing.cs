@@ -4,19 +4,28 @@ using UnityEngine;
 
 public class EnemyPathing : MonoBehaviour
 {
-    [SerializeField] List<Transform> waypoints;
+    //a list of type Transform as waypoints are positions in x and y
+    [SerializeField] List<Transform> waypointsList;
+
+    [SerializeField] WaveConfig waveConfig;
+
     [SerializeField] float enemyMoveSpeed = 2f;
 
     //saves the waypoint in which we want to go
+    //shows the next waypoint
     int waypointIndex = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        //set the start position of the Enemy to the 1st waypoint
-        transform.position = waypoints[waypointIndex].transform.position;
+        waypointsList = waveConfig.GetWayPoints();
 
-        print(waypoints.Count);
+        //set the start position of the Enemy to the 1st waypoint
+        transform.position = waypointsList[waypointIndex].transform.position;
+
+        waypointsList = waveConfig.GetWayPoints();
+
+        print(waypointsList.Count);
     }
 
     // Update is called once per frame
@@ -25,12 +34,13 @@ public class EnemyPathing : MonoBehaviour
         EnemyMove();
     }
 
+    //takes care of moving Enemy along a path
     private void EnemyMove()
     {
-        if(waypointIndex <= waypoints.Count - 1)
+        if(waypointIndex <= waypointsList.Count - 1)
         {
             //set the targetPosition to the waypoint where we want to go
-            var targetPosition = waypoints[waypointIndex].transform.position;
+            var targetPosition = waypointsList[waypointIndex].transform.position;
 
             //make sure that z axis is = 0
             targetPosition.z = 0f;
