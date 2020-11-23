@@ -23,8 +23,6 @@ public class EnemyPathing : MonoBehaviour
         //set the start position of the Enemy to the 1st waypoint
         transform.position = waypointsList[waypointIndex].transform.position;
 
-        waypointsList = waveConfig.GetWayPoints();
-
         print(waypointsList.Count);
     }
 
@@ -37,7 +35,7 @@ public class EnemyPathing : MonoBehaviour
     //takes care of moving Enemy along a path
     private void EnemyMove()
     {
-        if(waypointIndex <= waypointsList.Count - 1)
+        if (waypointIndex < waypointsList.Count)
         {
             //set the targetPosition to the waypoint where we want to go
             var targetPosition = waypointsList[waypointIndex].transform.position;
