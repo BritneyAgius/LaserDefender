@@ -14,9 +14,9 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         //set the currentWave to 0
-        var currentWave = waveConfigList[startingWave];
+        //var currentWave = waveConfigList[startingWave];
 
-        StartCoroutine(SpawnAllEnemiesInWave(currentWave));
+        StartCoroutine(spawnAllWaves());
     }
 
     private IEnumerator SpawnAllEnemiesInWave(WaveConfig waveToSpawn)
@@ -25,13 +25,26 @@ public class EnemySpawner : MonoBehaviour
         {
             //spawn the enemyPrefab from waveToSpawn
             //at the position specified waveToSpawn waypoints
-            Instantiate(
+            var newEnemy = Instantiate(
                 waveToSpawn.GetEnemyPrefab(),
                 waveToSpawn.GetWayPoints()[0].transform.position,
                 Quaternion.identity);
 
+            //select the wave and apply the enemy to it
+            newEnemy.GetComponent<EnemyPathing>().SetWaveConfig(waveToSpawn);
+
             //wait spawnTime
             yield return new WaitForSeconds(waveToSpawn.GetTimeBetweenSpawns());
+        }
+    }
+
+    private IEnumerator spawnAllWaves()
+    {
+        //loop from starting to end position in our List
+        foreach (WaveConfig currentWave in waveConfigList)
+        {
+            //wait for all enemies in currentWave to spawn before yielding
+            yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
         }
     }
 

@@ -97,4 +97,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waypointsList: []
   waveConfig: {fileID: 11400000, guid: da9ffdbab8f54478f8b09273b2339454, type: 2}
-  enemyMoveSpeed: 2

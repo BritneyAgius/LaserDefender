@@ -9,7 +9,6 @@ public class EnemyPathing : MonoBehaviour
 
     [SerializeField] WaveConfig waveConfig;
 
-    [SerializeField] float enemyMoveSpeed = 2f;
 
     //saves the waypoint in which we want to go
     //shows the next waypoint
@@ -32,6 +31,12 @@ public class EnemyPathing : MonoBehaviour
         EnemyMove();
     }
 
+    //setting up the WaveConfig
+    public void SetWaveConfig(WaveConfig waveConfigToSet)
+    {
+        waveConfig = waveConfigToSet;
+    }
+
     //takes care of moving Enemy along a path
     private void EnemyMove()
     {
@@ -44,7 +49,7 @@ public class EnemyPathing : MonoBehaviour
             targetPosition.z = 0f;
 
             //move enemy from current position to target position, at enemyMovement speed
-            var enemyMovement = enemyMoveSpeed * Time.deltaTime;
+            var enemyMovement = waveConfig.GetEnemyMoveSpeed() * Time.deltaTime;
 
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, enemyMovement);
 
